@@ -34,9 +34,9 @@ for chainid in chains:
                 contribs[member_id] += mdata["attacks"]
 
 # Get member profiles and print results
-print("Player ID", "Name", "Attacks") 
+print(f"Attacks\tName") 
 for member_id, attacks in contribs.items():
     profileInfo = requests.get(f"https://api.torn.com/user/{member_id}/?key={TOKEN}")  # Removed selections=profile
     profileInfo = json.loads(profileInfo.content)
     name = profileInfo["name"] 
-    print(member_id, name, attacks) 
+    print(f"{attacks}\t{name}") 
