@@ -2,14 +2,17 @@ import os
 from dotenv import load_dotenv
 import requests
 import json
-import time  
+import time
 
 load_dotenv()
 
 TOKEN = os.getenv("TORN_KEY")
 
+# get time inputs
 timefrom = int(input("When from? "))
-timeto = int(input("When to? "))
+timeto = input("When to? ")
+if timeto == "now": timeto = int(time.time()) # if user says "now", get current time
+else: timeto = int(timeto)
 
 print("Getting chain info...")
 chains = requests.get(f"https://api.torn.com/faction/?selections=chains&key={TOKEN}&from={timefrom}&to={timeto}")
