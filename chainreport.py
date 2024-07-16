@@ -14,16 +14,23 @@ timeto = input("When to? ")
 if timeto == "now": timeto = int(time.time()) # if user says "now", get current time
 else: timeto = int(timeto)
 
+# get list of chains!
 print("Getting chain info...")
-chains = requests.get(f"https://api.torn.com/faction/?selections=chains&key={TOKEN}&from={timefrom}&to={timeto}")
-chains = json.loads(chains.content)["chains"]
+chains = json.loads(requests.get(f"https://api.torn.com/faction/?selections=chains&key={TOKEN}&from={timefrom}&to={timeto}").content)
+if "error" in chains: # look for potential error in response 
+    print(f"\nError:\n{chains}")
+    exit()
+else: chains = chains["chains"]
 print(f"Loaded {len(chains)} chains")
 contribs = {}
 
 for chainid in chains:
     print(f"Processing chain {chainid}")
-    info = requests.get(f"https://api.torn.com/torn/{chainid}/?selections=chainreport&key={TOKEN}")
-    info = json.loads(info.content)["chainreport"]
+    info = json.loads(requests.get(f"https://api.torn.com/torn/{chainid}/?selections=chainreport&key={TOKEN}").content)
+    if "error" in info: # look for potential error in response 
+        print(f"\nError:\n{chains}")
+        exit()
+    else: info = info["chainreport"]
     members = info["members"]
 
     for member_id, mdata in members.items():
