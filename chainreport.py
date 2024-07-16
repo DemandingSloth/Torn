@@ -15,7 +15,6 @@ print("Getting chain info...")
 chains = requests.get(f"https://api.torn.com/faction/?selections=chains&key={TOKEN}&from={timefrom}&to={timeto}")
 chains = json.loads(chains.content)["chains"]
 print(f"Loaded {len(chains)} chains")
-time.sleep(.1)
 contribs = {}
 
 for chainid in chains:
@@ -24,14 +23,15 @@ for chainid in chains:
     info = json.loads(info.content)["chainreport"]
     members = info["members"]
 
-     
-
     for member_id, mdata in members.items():
         if mdata["attacks"] >= 3:  
             if member_id not in contribs.keys():
                 contribs[member_id] = mdata["attacks"]
             else:
                 contribs[member_id] += mdata["attacks"]
+
+print("Getting usernames...\n")
+time.sleep(1) # in case close to API limit
 
 # Get member profiles and print results
 print(f"Attacks\tName") 
