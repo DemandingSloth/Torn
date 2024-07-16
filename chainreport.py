@@ -50,3 +50,5 @@ for member_id, attacks in contribs.items():
     profileInfo = json.loads(profileInfo.content)
     name = profileInfo["name"] 
     print(f"{attacks}\t{name}") 
+
+print(f"'to' time: {timeto}")
